@@ -1,0 +1,20 @@
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server-->browser: HTML-code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server-->browser: spa.js
+
+note over browser:
+browser starts executing the JavaScript and requests
+the data.json file
+end note
+
+note over server
+The server sends the data.json file to the browser
+end note
+
+note over browser
+The browser then runs the rest of the JavaScript
+and renders the notes on the browser
+end note

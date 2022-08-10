@@ -1,0 +1,20 @@
+browser->server: user submits the form
+
+note over browser
+The following steps explain the logic of how the JavaScript
+pushes the request to the server by handling an event and
+updating the data on the server
+end note
+browser->server: the JavaScript event handler parses the form information and sends it to the server
+browser->server: then the JavaScript makes a POST request that sends the data to the server
+browser->server: finally the JavaScript redraws the notes by simply requesting the updated data.json file
+note over server:
+finally instead of reloading the page the server simply
+sends the updated data.json to the browser
+end note
+server->browser: Sends the updated data.json to the browser
+note over browser
+the browser then just refreshes the list that contains the 
+notes by using JavaScript instead of having to reload the
+entire page and required information
+end note
