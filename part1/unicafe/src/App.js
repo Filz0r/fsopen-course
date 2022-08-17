@@ -12,15 +12,35 @@ const Title = (props) => {
 
 const Statistics = (props) => {
   const { good, neutral, bad, all, average } = props;
-  const positivePercent = `${(good * 100) / all}%`;
+
+  // since there is no feedback we don't need to calculate anything
+  // so we return the <p> instead of doing calculations
+  if (all === 0) {
+    return <p>No feedback given</p>;
+  }
+
+  const positivePercent = all > 0 ? `${(good * 100) / all}%` : '0%';
+  const trueAverage = average > 0 ? average / all : 0;
+
   return (
     <div>
-      <StatisticLine name='good' count={good} />
-      <StatisticLine name='neutral' count={neutral} />
-      <StatisticLine name='bad' count={bad} />
-      <StatisticLine name='all' count={all} />
-      <StatisticLine name='average' count={average / all} />
-      <StatisticLine name='positive' count={positivePercent} />
+      <Title text='Statistics' />
+      <table>
+        <thead>
+          <tr>
+            <th>name</th>
+            <th>statistic</th>
+          </tr>
+        </thead>
+        <tbody>
+          <StatisticLine name='good' count={good} />
+          <StatisticLine name='neutral' count={neutral} />
+          <StatisticLine name='bad' count={bad} />
+          <StatisticLine name='all' count={all} />
+          <StatisticLine name='average' count={trueAverage} />
+          <StatisticLine name='positive' count={positivePercent} />
+        </tbody>
+      </table>
     </div>
   );
 };
@@ -28,9 +48,10 @@ const Statistics = (props) => {
 const StatisticLine = (props) => {
   const { name, count } = props;
   return (
-    <p>
-      {name}: {count}
-    </p>
+    <tr>
+      <td>{name}</td>
+      <td>{count}</td>
+    </tr>
   );
 };
 
@@ -65,7 +86,6 @@ const App = () => {
       <Button handleClick={addGoodReview} text='Good' />
       <Button handleClick={addNeutralReview} text='Neutral' />
       <Button handleClick={addBadReview} text='Bad' />
-      <Title text='Statistics' />
       <Statistics
         good={good}
         neutral={neutral}
