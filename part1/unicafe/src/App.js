@@ -10,6 +10,21 @@ const Title = (props) => {
   return <h1>{text}</h1>;
 };
 
+const Statistics = (props) => {
+  const { good, neutral, bad, all, average } = props;
+  const positivePercent = `${(good * 100) / all}%`;
+  return (
+    <div>
+      <StatisticLine name='good' count={good} />
+      <StatisticLine name='neutral' count={neutral} />
+      <StatisticLine name='bad' count={bad} />
+      <StatisticLine name='all' count={all} />
+      <StatisticLine name='average' count={average / all} />
+      <StatisticLine name='positive' count={positivePercent} />
+    </div>
+  );
+};
+
 const StatisticLine = (props) => {
   const { name, count } = props;
   return (
@@ -44,8 +59,6 @@ const App = () => {
     setAverage(average - 1);
   };
 
-  const positivePercent = `${(good * 100) / all}%`;
-
   return (
     <div>
       <Title text='Give Feedback' />
@@ -53,12 +66,13 @@ const App = () => {
       <Button handleClick={addNeutralReview} text='Neutral' />
       <Button handleClick={addBadReview} text='Bad' />
       <Title text='Statistics' />
-      <StatisticLine name='good' count={good} />
-      <StatisticLine name='neutral' count={neutral} />
-      <StatisticLine name='bad' count={bad} />
-      <StatisticLine name='all' count={all} />
-      <StatisticLine name='average' count={average / all} />
-      <StatisticLine name='positive' count={positivePercent} />
+      <Statistics
+        good={good}
+        neutral={neutral}
+        bad={bad}
+        average={average}
+        all={all}
+      />
     </div>
   );
 };
