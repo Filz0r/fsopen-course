@@ -3,11 +3,11 @@ import axios from 'axios';
 
 const Weather = ({ country }) => {
   const [weather, setWeather] = useState([]);
-  const api_key = process.env.REACT_APP_API_KEY;
-  const coordinates = Object.values(country.capitalInfo);
-  const [latitude, longitude] = coordinates[0];
 
   useEffect(() => {
+    const api_key = process.env.REACT_APP_API_KEY;
+    const coordinates = Object.values(country.capitalInfo);
+    const [latitude, longitude] = coordinates[0];
     axios
       .get(
         `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${api_key}&units=metric`
@@ -31,7 +31,7 @@ const Weather = ({ country }) => {
         <p>
           Temperature is: <strong>{weather.main.temp}ºC</strong>
         </p>
-        <img src={imageLink} />
+        <img src={imageLink} alt='temperature icon' />
         <p>
           Wind is: <strong>{weather.wind.speed}m/s</strong>
         </p>
