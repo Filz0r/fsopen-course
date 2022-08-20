@@ -12,7 +12,7 @@ const App = () => {
   ]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
-  const [showAll, setShowAll] = useState('');
+  const [filter, setFilter] = useState('');
 
   const checkIfNameExists = persons.some((person) => person.name === newName);
 
@@ -44,11 +44,11 @@ const App = () => {
   };
 
   const handleFilterChange = (event) => {
-    setShowAll(event.target.value);
+    setFilter(event.target.value);
   };
 
-  const personsToShow = showAll
-    ? persons.filter((person) => person.name.match(new RegExp(showAll, 'gi')))
+  const personsToShow = filter
+    ? persons.filter((person) => person.name.match(new RegExp(filter, 'gi')))
     : persons;
 
   return (
