@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import Persons from './components/Persons';
 import PersonForm from './components/PersonForm';
 import Filter from './components/Filter';
+import phonebookService from './services/phonebook';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -10,9 +10,12 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('');
   const [filter, setFilter] = useState('');
   const hook = () => {
-    axios.get('http://localhost:3001/persons').then((response) => {
-      setPersons(response.data);
-    });
+    phonebookService
+      .getAllPersons()
+      .then((personsList) => {
+        setPersons(personsList);
+      })
+      .catch((error) => console.log(error));
   };
 
   useEffect(hook, []);
@@ -28,14 +31,40 @@ const App = () => {
     };
 
     if (checkIfNameExists) {
-      setNewName('');
-      setNewNumber('');
-      return alert(`${newName} is already added to phonebook`);
-    }
+      const [personToUpdate] = persons.filter(
+        (person) => person.name === newName
+      );
+      const updatedPerson = { ...personToUpdate, number: newNumber };
 
-    setPersons(persons.concat(personObject));
-    setNewName('');
-    setNewNumber('');
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook, do you wish to update the number?`
+        )
+      ) {
+        console.log(updatedPerson);
+        phonebookService
+          .updatePerson(updatedPerson.id, updatedPerson)
+          .then((personReturned) => {
+            console.log(`${updatedPerson.name} was updated`);
+            setPersons(
+              persons.map((personObj) =>
+                personObj.id !== updatedPerson.id ? personObj : personReturned
+              )
+            );
+            setNewName('');
+            setNewNumber('');
+          });
+      } else {
+        setNewName('');
+        setNewNumber('');
+      }
+    } else {
+      phonebookService.createPerson(personObject).then((newPerson) => {
+        setPersons(persons.concat(newPerson));
+        setNewName('');
+        setNewNumber('');
+      });
+    }
   };
 
   const handleNameChange = (event) => {
@@ -48,6 +77,16 @@ const App = () => {
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
+  };
+
+  const handleDeletePerson = (id) => {
+    const filterPersons = personsToShow.filter((person) => person.id === id);
+    const { name, id: personID } = filterPersons[0];
+
+    if (window.confirm(`Delete ${name} from the phonebook?`)) {
+      phonebookService.deletePerson(personID);
+      setPersons(personsToShow.filter((person) => person.id !== personID));
+    }
   };
 
   const personsToShow = filter
@@ -65,7 +104,10 @@ const App = () => {
         newNumber={newNumber}
         newName={newName}
       />
-      <Persons persons={personsToShow} />
+      <Persons
+        persons={personsToShow}
+        handleDeletePerson={handleDeletePerson}
+      />
     </div>
   );
 };
