@@ -3,12 +3,15 @@ import Persons from './components/Persons';
 import PersonForm from './components/PersonForm';
 import Filter from './components/Filter';
 import phonebookService from './services/phonebook';
+import Notification from './components/Notification';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filter, setFilter] = useState('');
+  const [message, setMessage] = useState(null);
+
   const hook = () => {
     phonebookService
       .getAllPersons()
@@ -29,7 +32,7 @@ const App = () => {
       number: newNumber,
       id: persons.length + 1,
     };
-
+    console.log(persons.length);
     if (checkIfNameExists) {
       const [personToUpdate] = persons.filter(
         (person) => person.name === newName
@@ -41,7 +44,6 @@ const App = () => {
           `${newName} is already added to phonebook, do you wish to update the number?`
         )
       ) {
-        console.log(updatedPerson);
         phonebookService
           .updatePerson(updatedPerson.id, updatedPerson)
           .then((personReturned) => {
@@ -53,6 +55,26 @@ const App = () => {
             );
             setNewName('');
             setNewNumber('');
+            setMessage(`Updated the number from ${personReturned.name}`);
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
+          })
+          .catch((error) => {
+            console.log(error);
+            setPersons(
+              persons.map((personObj) =>
+                personObj.id !== updatedPerson.id ? personObj : updatedPerson
+              )
+            );
+            setNewName('');
+            setNewNumber('');
+            setMessage(
+              `ERROR: ${updatedPerson.name} has already been deleted from the server`
+            );
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
           });
       } else {
         setNewName('');
@@ -63,6 +85,10 @@ const App = () => {
         setPersons(persons.concat(newPerson));
         setNewName('');
         setNewNumber('');
+        setMessage(`Added ${newPerson.name}`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
       });
     }
   };
@@ -96,6 +122,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter handleFilterChange={handleFilterChange} />
       <PersonForm
         addPerson={addPerson}
