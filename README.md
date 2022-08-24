@@ -1,6 +1,7 @@
 # Exercises for the Full Stack Open 2022 course
 
-This repository consists of the solutions I've come up with for the exercises in the [Full Stack Open 2022](https://fullstackopen.com/) course
+This repository consists of the solutions I've come up with for the exercises in the [Full Stack Open 2022](https://fullstackopen.com/) course.
+The links of each of the following titles consist of 2 parts, the first one a direct link to the path of this repository containing the solution I came up with, the second link will contain the direct link to the part where I learnt how to solve said exercises.
 
 ## [Part 0](https://github.com/Filz0r/fsopen-course/tree/main/part0) - [Fundamentals of Web apps](https://fullstackopen.com/en/part0)
 
