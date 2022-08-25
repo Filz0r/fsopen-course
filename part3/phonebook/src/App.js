@@ -23,7 +23,7 @@ const App = () => {
 
   useEffect(hook, []);
 
-  //const checkIfNameExists = persons.some((person) => person.name === newName);
+  const checkIfNameExists = persons.some((person) => person.name === newName);
 
   const addPerson = (event) => {
     event.preventDefault();
