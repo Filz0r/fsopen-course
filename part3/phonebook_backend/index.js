@@ -1,6 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const Persons = require('./models/persons');
 
 const app = express();
 app.use(cors());
@@ -23,54 +25,26 @@ app.use(logger);
 
 app.use(express.json());
 
-let phonebook = [
-  {
-    id: 1,
-    name: 'Arto Hellas',
-    number: '040-123456',
-  },
-  {
-    id: 2,
-    name: 'Ada Lovelace',
-    number: '39-44-5323523',
-  },
-  {
-    id: 3,
-    name: 'Dan Abramov',
-    number: '12-43-234345',
-  },
-  {
-    id: 4,
-    name: 'Mary Poppendieck',
-    number: '39-23-6423122',
-  },
-];
-
-const generateId = () => {
-  const maxId =
-    phonebook.length > 0
-      ? Math.max(...phonebook.map((person) => person.id))
-      : 0;
-  return maxId + 1;
-};
-
-app.get('/info', (request, response) => {
+app.get('/info', async (request, response) => {
+  const phonebookLength = await Persons.find({}).then((result) => {
+    return result.length;
+  });
   const info = {
-    message: `Phonebook has info for ${phonebook.length} people`,
+    message: `Phonebook has info for ${phonebookLength} people`,
     time: new Date(),
   };
   response.send(`<div>${info.message}<br>${info.time}</div>`);
 });
 
 app.get('/api/persons', (request, response) => {
-  response.json(phonebook);
+  Persons.find({}).then((result) => {
+    response.json(result);
+  });
 });
 
 app.post('/api/persons', (request, response) => {
   const body = request.body;
-  const checkIfNameExists = phonebook.some(
-    (person) => person.name === body.name
-  );
+
   if (!body.name) {
     return response.status(400).json({
       error: 'a name must be provided',
@@ -79,35 +53,30 @@ app.post('/api/persons', (request, response) => {
     return response.status(400).json({
       error: 'a number must be provided',
     });
-  } else if (checkIfNameExists) {
-    return response.status(400).json({
-      error: 'this person already exists',
-    });
   }
-  const person = {
+  const person = new Persons({
     name: body.name,
     number: body.number,
-    id: generateId(),
-  };
-  phonebook = phonebook.concat(person);
-  response.json(person);
+  });
+  person.save().then((result) => response.json(result));
 });
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id);
-  const person = phonebook.find((p) => p.id === id);
-  if (person) {
-    response.json(person);
-  } else {
-    response.status(404).end();
-  }
+  Persons.findById(request.params.id).then((result) => {
+    response.json(result);
+  });
 });
 
 app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id);
-
-  phonebook = phonebook.filter((person) => person.id !== id);
-  response.status(204).end();
+  Persons.findByIdAndRemove(request.params.id, (error, docs) => {
+    if (error) {
+      console.log(error);
+      return response.status(400).end();
+    } else {
+      console.log('Deleted: ', docs);
+      return response.status(204).end();
+    }
+  });
 });
 
 const PORT = process.env.PORT || 3001;
