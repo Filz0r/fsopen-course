@@ -32,7 +32,7 @@ const App = () => {
       number: newNumber,
       id: persons.length + 1,
     };
-    /*if (checkIfNameExists) {
+    if (checkIfNameExists) {
       const [personToUpdate] = persons.filter(
         (person) => person.name === newName
       );
@@ -79,17 +79,27 @@ const App = () => {
         setNewName('');
         setNewNumber('');
       }
-    } else {*/
-    phonebookService.createPerson(personObject).then((newPerson) => {
-      setPersons(persons.concat(newPerson));
-      setNewName('');
-      setNewNumber('');
-      setMessage(`Added ${newPerson.name}`);
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
-    });
-    //}
+    } else {
+      phonebookService
+        .createPerson(personObject)
+        .then((newPerson) => {
+          setPersons(persons.concat(newPerson));
+          setNewName('');
+          setNewNumber('');
+          setMessage(`Added ${newPerson.name}`);
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        })
+        .catch((error) => {
+          setMessage(`ERROR: ${error.response.data.error}`);
+          setNewName('');
+          setNewNumber('');
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        });
+    }
   };
 
   const handleNameChange = (event) => {
