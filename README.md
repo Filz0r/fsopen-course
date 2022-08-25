@@ -30,7 +30,7 @@ The links of each of the following titles consist of 2 parts, the first one a di
 - Saving data to MongoDB
 - Validation and ESLint
 
-## [Part 3](https://github.com/Filz0r/fsopen-course/tree/main/part4/) - [Programing a server with NodeJS and Express](https://fullstackopen.com/en/part4)
+## [Part 4](https://github.com/Filz0r/fsopen-course/tree/main/part4/) - [Programing a server with NodeJS and Express](https://fullstackopen.com/en/part4)
 
 - Structure of backend application, introduction to testing
 - Testing and backend
