@@ -23,9 +23,16 @@ The links of each of the following titles consist of 2 parts, the first one a di
 - Altering data in server
 - Adding style to React apps
 
-## [Part 3](https://github.com/Filz0r/fsopen-course/tree/main/part3/) - [Programing a server with NodeJS and Express](https://fullstackopen.com/en/part0)
+## [Part 3](https://github.com/Filz0r/fsopen-course/tree/main/part3/) - [Programing a server with NodeJS and Express](https://fullstackopen.com/en/part3)
 
 - Node.js and Express
 - Deploying app to internet
 - Saving data to MongoDB
 - Validation and ESLint
+
+## [Part 3](https://github.com/Filz0r/fsopen-course/tree/main/part4/) - [Programing a server with NodeJS and Express](https://fullstackopen.com/en/part4)
+
+- Structure of backend application, introduction to testing
+- Testing and backend
+- User administration
+- Token administration
