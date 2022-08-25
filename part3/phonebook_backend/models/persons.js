@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const url = process.env.MONGO_URI;
 mongoose
   .connect(url)
-  .then((result) => {
+  .then(() => {
     console.log('Connected to MongoDB');
   })
   .catch((error) => console.log('error: ', error.message));
@@ -27,7 +27,7 @@ const numberValidator = [
       }
       return false;
     },
-    message: "number must have an  '-' as the third our fourth parameter",
+    message: 'number must have an  \'-\' as the third our fourth parameter',
   },
   {
     // validate if there are only numbers on the number input
