@@ -10,3 +10,13 @@ Content-Type: application/json
     "url": "bla bla blaasdasda",
     "likes": 12
 }
+###
+PUT http://localhost:3001/api/blogs/6308d326e2a7586749b1bb53
+Content-Type: application/json
+
+{
+    "title":"theseasedas",
+    "author": "12345123",
+    "url": "bla bla blaasdasda",
+    "likes": 15
+}
