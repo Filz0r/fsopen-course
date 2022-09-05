@@ -11,12 +11,43 @@ Content-Type: application/json
     "likes": 12
 }
 ###
-PUT http://localhost:3001/api/blogs/6308d326e2a7586749b1bb53
+PUT http://localhost:3001/api/blogs/63163204732a9d0f6232edb5
 Content-Type: application/json
 
 {
     "title":"theseasedas",
     "author": "12345123",
     "url": "bla bla blaasdasda",
-    "likes": 15
+    "likes": 19
+}
+
+###
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "filipe",
+    "password": "filipe"
+}
+
+###
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "filipe",
+    "name": "filipe",
+    "password": "filipe"
+}
+###
+POST http://localhost:3001/api/blogs/
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZpbGlwZSIsImlkIjoiNjMxNjFmZTg2YzA4ODU3NzcwMmM2Njc5IiwiaWF0IjoxNjYyMzk4OTIzLCJleHAiOjE2NjI0MDI1MjN9.gqm2spGm9QPFNqQ-_zZTJ8TVA-NTmnIQ6pDzqO7MVLQ
+Content-Type: application/json
+
+{
+    "title":"theseasedas",
+    "author": "12345123",
+    "url": "bla bla blaasdasda",
+    "likes": 15,
+    "user": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZpbGlwZSIsImlkIjoiNjMxNjFmZTg2YzA4ODU3NzcwMmM2Njc5IiwiaWF0IjoxNjYyMzk4OTIzLCJleHAiOjE2NjI0MDI1MjN9.gqm2spGm9QPFNqQ-_zZTJ8TVA-NTmnIQ6pDzqO7MVLQ"
 }
